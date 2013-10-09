@@ -31,12 +31,31 @@ Redmine::Plugin.register :redmine_wiki_template do
     # wiki template macro
     desc "Replace token inside a template. Example:\n\n {{template(WikiTemplatePage,token=foo,token2=bar)}}."
     macro :template do |obj, args|
+      # get included template page
       out = macro_include(obj, [args.shift])
-      args.each do |arg|
-        _, key, value = /(\w+)\W*\=\W*(.+)$/.match(arg).to_a
-        next unless key && value
 
-        out.gsub!(key){ value.strip.gsub("<br />", "") }
+      # parse key-value arguments
+      values = args.inject({}) do |values, arg|
+        _, key, value = /(\w+)\W*\=\W*(.+)$/.match(arg).to_a
+        values[key] = value.strip.gsub("<br />", "") if key && value
+        values
+      end
+
+      # extract "special" arguments which are not passed down to the template
+      table_type = values.delete("TableType").to_s.downcase
+
+      # Replace variables
+      values.each { |k,v| out.gsub!(k){ v } }
+
+      # Handle TableType argument to allow to selectively build tables from
+      # multiple templates
+      case table_type
+      when "first"
+        out.sub!(/<\/table>\z/, '')
+      when "mid"
+        out.sub!(/\A<table[^>]*>(.*)<\/table>\z/m, '\1')
+      when "last"
+        out.sub!(/\A<table[^>]*>/, '')
       end
 
       out.html_safe

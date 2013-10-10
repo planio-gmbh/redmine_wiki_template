@@ -1,4 +1,4 @@
-# Redmine Wiki Templates
+# Redmine Wiki Template
 
 This plugin to Redmine adds a new wiki macro called `{{template}}` which
 allows to include other wiki pages similar to the existing `{{include}}`

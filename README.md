@@ -13,7 +13,7 @@ It can thus be used to define customizable wiki page templates.
 # Installation
 1. Copy the software to the `vendor/plugins` (for Redmine 1.x) or `plugins`
    (for Redmine 2.x) directory. Make sure that the name of the directory is
-   `redmine_wiki_templates`.
+   `redmine_wiki_template`.
 2. Restart Redmine
 
 # License

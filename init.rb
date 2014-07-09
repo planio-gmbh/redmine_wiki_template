@@ -19,6 +19,7 @@
 # http://www.redmine.org/issues/2854#note-1
 
 require 'redmine'
+require 'cgi'
 
 Redmine::Plugin.register :redmine_wiki_template do
   name 'Wiki Template plugin'
@@ -45,7 +46,7 @@ Redmine::Plugin.register :redmine_wiki_template do
       table_type = values.delete("TableType").to_s.downcase
 
       # Replace variables
-      values.each { |k,v| out.gsub!(k){ v } }
+      values.each { |k,v| out.gsub!(k){ CGI::escapeHTML(v) } }
 
       # Handle TableType argument to allow to selectively build tables from
       # multiple templates

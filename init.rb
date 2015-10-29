@@ -28,6 +28,8 @@ Redmine::Plugin.register :redmine_wiki_template do
   version '0.0.1'
   url 'https://plan.io/contact/'
 
+  hidden true if respond_to?(:hidden)
+
   Redmine::WikiFormatting::Macros.register do
     # wiki template macro
     desc "Replace token inside a template. Example:\n\n {{template(WikiTemplatePage,token=foo,token2=bar)}}."

@@ -39,7 +39,7 @@ Redmine::Plugin.register :redmine_wiki_template do
 
       # parse key-value arguments
       values = args.inject({}) do |values, arg|
-        _, key, value = /(\w+)\W*\=\W*(.+)$/.match(arg).to_a
+        _, key, value = /([[:word:]]+)[^[[:word:]]]*\=[^[[:word:]]]*(.+)$/.match(arg).to_a
         values[key] = value.strip.gsub("<br />", "") if key && value
         values
       end
